@@ -1,4 +1,4 @@
-import { PortableTextBlock } from "sanity"
+import { Image, PortableTextBlock } from "sanity"
 
 export type Blog = {
     _id: string;
@@ -7,7 +7,7 @@ export type Blog = {
     description: string;
     title: string;
     slug: string;
-    image: string;
+    mainImage: Object;
     url: string;
     body: PortableTextBlock[];
 }

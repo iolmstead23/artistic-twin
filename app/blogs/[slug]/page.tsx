@@ -1,14 +1,21 @@
-import Image from "next/image";
-import { Metadata } from "next";
-import { getSingleProject } from "@/sanity/sanity.utils";
-import type { Blog } from "@/types/blog";
-import { PortableText } from "@portabletext/react";
+import { Metadata } from "next"
+import { getSingleProject } from "@/sanity/sanity.utils"
+import type { Blog } from "@/types/blog"
+import { PortableText } from "@portabletext/react"
+import { client } from "@/sanity/sanity.utils"
+import imageUrlBuilder from '@sanity/image-url'
+import Image from "next/image"
 
 type Props = {
   params: {
     slug: string;
-  };
-};
+  }
+}
+const builder = imageUrlBuilder(client)
+
+function urlFor(source: any) {
+  return builder.image(source)
+}
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -19,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${blog.name} | Project`,
     description: blog.description,
     openGraph: {
-      images: blog.image || "add-a-fallback-project-image-here",
+      images: blog.mainImage ? urlFor(blog.mainImage).url() : "/logo.png",
       title: blog.name,
       description: blog.description,
     },
@@ -27,32 +34,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Blog({ params }: Props) {
+
   const slug = params.slug
-  const project: Blog = await getSingleProject(slug)
+  const blog: Blog = await getSingleProject(slug)
 
   return (
-    <main className="max-w-6xl mx-auto lg:px-16 px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-start justify-between mb-4">
-          <h1 className="font-bold lg:text-5xl text-3xl lg:leading-tight mb-4">
-            {project.name}
-          </h1>
-
-
+    <article className="bg-slate-100 text-black">
+        <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col">
+              <div className="mx-auto">
+                <Image
+                  src={blog.mainImage ? urlFor(blog.mainImage).url() : "/logo.png"}
+                  alt=""
+                  width={250}
+                  height={250}
+                />
+              </div>
+              <div className="mx-auto">
+                <h1 className="font-bold lg:text-5xl text-3xl lg:leading-tight mb-4">
+                    {blog.title}
+                </h1>
+              </div>
+              <div>
+                  <PortableText value={blog.body} />
+              </div>
+            </div>
         </div>
-
-        <Image
-          className="rounded-xl border border-zinc-800"
-          width={900}
-          height={460}
-          src={project.image || "/logo.png"}
-          alt={project.name}
-        />
-
-        <div className="flex flex-col gap-y-6 mt-8 leading-7 text-zinc-400">
-          <PortableText value={project.body} />
-        </div>
-      </div>
-    </main>
+    </article>
   );
 }
