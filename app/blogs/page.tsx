@@ -18,7 +18,7 @@ export default async function Blogs() {
   revalidatePath("/blogs")
 
   return (
-    <div className="bg-slate-100 text-black text-center">
+    <div className="text-center">
       <div className="flex flex-col md:flex-row md:flex-wrap justify-center">
           {blogs.map(({_id, title, mainImage, description, slug}) => (
             <article className="p-10 m-10 border-black border-2 rounded-xl max-w-sm" key={_id}>

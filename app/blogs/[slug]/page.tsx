@@ -39,7 +39,7 @@ export default async function Blog({ params }: Props) {
   const blog: Blog = await getSingleProject(slug)
 
   return (
-    <article className="bg-slate-100 text-black">
+    <article>
         <div className="max-w-4xl mx-auto">
             <div className="flex flex-col">
               <div className="mx-auto">
