@@ -18,8 +18,8 @@ export default function Socials() {
             <h1 className="text-xl">Social Media Links</h1>
 
             <div className="flex flex-row max-w-lg mx-auto text-2xl">
-                <Link className="px-10" href="society6.com/artbykellyc">Society6</Link>
-                <Link className="px-10" href="etsy.com/shop/ArtisticTwinDesigns">Etsy</Link>
+                <Link className="px-10" href="http://www.society6.com/artbykellyc">Society6</Link>
+                <Link className="px-10" href="http://www.etsy.com/shop/ArtisticTwinDesigns">Etsy</Link>
                 <Link className="px-10" href="mailto:artistictwindesigns@outlook.com">Email</Link>
             </div>
         </div>
