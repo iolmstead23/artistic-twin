@@ -1,13 +1,15 @@
 import { Blog } from "@/types/blog"
 import { groq, createClient } from "next-sanity"
 
-export async function getBlogs(): Promise<Blog[]> {
-    const client = createClient({
-        projectId: '8y2ojtxt',
-        dataset: 'production',
-        apiVersion: "2023-01-01",
-    })
+export const client = createClient({
+  projectId: '8y2ojtxt',
+  dataset: 'production',
+  useCdn: true, // set to `false` to bypass the edge cache
+  apiVersion: '2023-01-01', // use current date (YYYY-MM-DD) to target the latest API version
+  // token: process.env.SANITY_SECRET_TOKEN // Only if you want to update content with the client
+})
 
+export async function getBlogs(): Promise<Blog[]> {
     return client.fetch(
         groq`*[_type == "post"]{
             _id,
@@ -24,12 +26,6 @@ export async function getBlogs(): Promise<Blog[]> {
 }
 
 export async function getSingleProject(slug: string) {
-    const client = createClient({
-        projectId: '8y2ojtxt',
-        dataset: 'production',
-        apiVersion: "2023-01-01",
-    })
-
     return client.fetch(
       groq`*[_type == "post" && slug.current == $slug][0]{
         _id,
@@ -45,11 +41,3 @@ export async function getSingleProject(slug: string) {
       { slug }
     )
 }
-
-export const client = createClient({
-  projectId: '8y2ojtxt',
-  dataset: 'production',
-  useCdn: true, // set to `false` to bypass the edge cache
-  apiVersion: '2023-01-01', // use current date (YYYY-MM-DD) to target the latest API version
-  // token: process.env.SANITY_SECRET_TOKEN // Only if you want to update content with the client
-})
