@@ -21,8 +21,7 @@ export async function getBlogs(): Promise<Blog[]> {
             mainImage,
             url,
             body,
-        }`,
-        { next: { revalidate: 3600 } }
+        }`
     )
 }
 

@@ -6,6 +6,9 @@ import { client } from "@/sanity/sanity.utils"
 
 const builder = imageUrlBuilder(client)
 
+// This forces update to the blog to happen right away
+export const fetchCache = 'force-no-store'
+
 function urlFor(source: any) {
   return builder.image(source)
 }
