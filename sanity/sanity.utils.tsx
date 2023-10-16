@@ -2,7 +2,8 @@ import { Blog } from "@/types/blog"
 import { groq, createClient } from "next-sanity"
 
 export const client = createClient({
-  projectId: process.env.PROJECT_ID,
+  // couldnt get this stored as an env variable to work
+  projectId: '8y2ojtxt',
   dataset: 'production',
   useCdn: false, // set to `false` to bypass the edge cache
   apiVersion: '2023-01-01', // use current date (YYYY-MM-DD) to target the latest API version
@@ -21,7 +22,7 @@ export async function getBlogs(): Promise<Blog[]> {
             url,
             body,
         }`,
-        { next: { revalidate: 100 } }
+        { next: { revalidate: 3600 } }
     )
 }
 
