@@ -2,11 +2,10 @@ import { Blog } from "@/types/blog"
 import { groq, createClient } from "next-sanity"
 
 export const client = createClient({
-  projectId: '8y2ojtxt',
+  projectId: process.env.PROJECT_ID,
   dataset: 'production',
-  useCdn: true, // set to `false` to bypass the edge cache
+  useCdn: false, // set to `false` to bypass the edge cache
   apiVersion: '2023-01-01', // use current date (YYYY-MM-DD) to target the latest API version
-  // token: process.env.SANITY_SECRET_TOKEN // Only if you want to update content with the client
 })
 
 export async function getBlogs(): Promise<Blog[]> {
@@ -21,7 +20,8 @@ export async function getBlogs(): Promise<Blog[]> {
             mainImage,
             url,
             body,
-        }`
+        }`,
+        { next: { revalidate: 30 } }
     )
 }
 
