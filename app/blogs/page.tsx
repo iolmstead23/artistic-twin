@@ -2,7 +2,7 @@ import { getBlogs } from "@/sanity/sanity.utils"
 import { revalidatePath } from "next/cache"
 import Image from "next/image"
 import Link from "next/link"
-import imageUrlBuilder from '@sanity/image-url'
+import imageUrlBuilder from "@sanity/image-url"
 import { client } from "@/sanity/sanity.utils"
 
 const builder = imageUrlBuilder(client)
@@ -13,9 +13,9 @@ function urlFor(source: any) {
 
 export default async function Blogs() {
 
-  const blogs = await getBlogs()
+  revalidatePath("/blogs/")
 
-  revalidatePath("/blogs")
+  const blogs = await getBlogs()
 
   return (
     <div className="text-center">
